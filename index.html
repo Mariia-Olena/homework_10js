@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const obj = {
+            a: 5,
+            b: 2
+        };
+
+        function getSum(number_1, number_2, number_3) {
+            return this.a + this.b + number_1 + number_2 + number_3
+        };
+
+        function bind(fn, context, ...args) {
+            return function(...fnArgs) {
+                const uuid = Date.now();
+
+                context[uuid] = fn;
+                const fnResult = context[uuid](...args.concat(...fnArgs));
+                delete context[uuid];
+
+                return fnResult;
+            }
+        };
+
+        console.log(bind(getSum, obj)(1, 1, 1));
+        console.log(bind(getSum, obj, 1, 1, 1)(2, 3));
+    </script>
+</body>
+</html>
